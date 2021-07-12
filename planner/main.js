@@ -11,15 +11,18 @@ const args = () => ({ a: randInt(0, 40), b: randInt(0, 40) })
 const generateTasks = i =>
   new Array(i).fill(1).map(_ => ({ type: taskType(), args: args() }))
 
-let workers = ['http://localhost:8080','http://localhost:2020','http://localhost:6060','http://localhost:4040']
+let workers = ['http://localhost:8080','http://localhost:4040']
 let tasks = generateTasks(nbTasks)
 let taskToDo = nbTasks
+
+let ADD = ['http://localhost:8080']
+let MULT = ['http://localhost:4040']
 
 const wait = mili => new Promise((resolve, reject) => setTimeout(resolve, mili))
 
 const sendTask = async (worker, task) => {
   console.log(`${worker}/${task.type}`, task)
-  workers = workers.filter(w => w !== worker)
+  workers = workers.filter(w => w !== worker) 
   tasks = tasks.filter(t => t !== task)
   const request = fetch(`${worker}/${task.type}`, {
     method: 'POST',
@@ -30,8 +33,8 @@ const sendTask = async (worker, task) => {
     body: JSON.stringify(task.args),
   })
     .then(res => {
-      workers = [...workers]
-      console.log(task.args,"11")
+      workers = [...workers, worker]
+      console.log("11",workers)
       return res.json()
     })
     .then(res => {

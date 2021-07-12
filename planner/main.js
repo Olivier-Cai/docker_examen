@@ -22,7 +22,9 @@ const wait = mili => new Promise((resolve, reject) => setTimeout(resolve, mili))
 
 const sendTask = async (worker, task) => {
   console.log(`${worker}/${task.type}`, task)
-  workers = workers.filter(w => w !== worker) 
+  workers = workers.filter(w => w !== worker)
+  //workers = workers.find(w => ADD.includes(w))
+  //workers = workers.find(w => MULT.includes(w))
   tasks = tasks.filter(t => t !== task)
   const request = fetch(`${worker}/${task.type}`, {
     method: 'POST',

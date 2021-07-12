@@ -1,11 +1,13 @@
 require('dotenv').config()
 const express = require('express')
+const fetch = require('node-fetch')
 const app = express()
 const port = process.env.PORT || 4040
 const randInt = (min, max) => Math.floor(Math.random() * (max - min)) + min
-let mult = true
+let mult = false
 let add = false
 let task = {}
+const registry = 'http://localhost:3030'
 
 app.use(express.json())
 app.use(
@@ -65,3 +67,15 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Worker listening at http://localhost:${port}`)
 })
+
+const register = (adress, registry) =>
+  fetch(registry + '/data', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ worker4: adress }),
+  })
+
+register(`http://localhost:${port}`, registry)

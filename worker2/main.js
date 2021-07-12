@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 6060
 const randInt = (min, max) => Math.floor(Math.random() * (max - min)) + min
 let mult = true
 let add = false

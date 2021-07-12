@@ -9,7 +9,7 @@ const args = () => ({ a: randInt(0, 40), b: randInt(0, 40) })
 const generateTasks = i =>
   new Array(i).fill(1).map(_ => ({ type: taskType(), args: args() }))
 
-let workers = ['http://localhost:3030','http://localhost:2020','http://localhost:5050','http://localhost:4040']
+let workers = ['http://localhost:8080','http://localhost:2020','http://localhost:6060','http://localhost:4040']
 let tasks = generateTasks(nbTasks)
 let taskToDo = nbTasks
 
@@ -28,11 +28,13 @@ const sendTask = async (worker, task) => {
     body: JSON.stringify(task.args),
   })
     .then(res => {
-      workers = [...workers, worker]
+      workers = [...workers]
+      console.log(res)
       return res.json()
     })
     .then(res => {
       taskToDo -= 1
+      console.log("ca passe")
       console.log(task, 'has res', res)
       return res
     })
